@@ -3,7 +3,9 @@ package com.wmx.cglibapp.proxy;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,11 +38,14 @@ public class HelloWorld {
          * callback 用于所有方法的回调
          * {@link MethodInterceptor} 方法拦截接口，继承了 {@link Callback}，目标对象的所有方法调用都会被 intercept 方法拦截.
          */
-        enhancer.setCallback((MethodInterceptor) (obj, method, args1, proxy) -> {
-            System.out.println("before method run...");
-            Object result = proxy.invokeSuper(obj, args1);
-            System.out.println("after method run...");
-            return result;
+        enhancer.setCallback(new MethodInterceptor() {
+            @Override
+            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+                System.out.println("before method run...");
+                Object result = proxy.invokeSuper(obj, args);
+                System.out.println("after method run...");
+                return result;
+            }
         });
         //如果需要，生成一个新类并使用指定的回调（如果有）以创建新的对象实例。使用超类的无参数构造函数创建。
         HelloWorld helloWorld = (HelloWorld) enhancer.create();
