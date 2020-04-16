@@ -18,7 +18,7 @@ import java.util.Date;
 public class InvocationHandlerTest {
     public String toGreet() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(dateFormat.format(new Date()) + "：hello cglib.");
+        System.out.println(dateFormat.format(new Date()) + "：hello InvocationHandler.");
         return dateFormat.format(new Date());
     }
 
