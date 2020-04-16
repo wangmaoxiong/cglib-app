@@ -31,11 +31,12 @@ public class FixedValueTest {
             //返回的对象必须与的目标类拦截方法返回类型兼容，否则抛异常.
             @Override
             public Object loadObject() throws Exception {
+                System.out.println("FixedValue loadObject is run.");
                 ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
                 objectNode.put("code", 200);
                 objectNode.put("msg", "success");
                 /**比如上面的 toGreet 方法返回的 String 类型，如果这里返回 {@link ObjectNode} 类型，则抛 ClassCastException 异常 */
-                return objectNode;
+                return objectNode.toString();
             }
         });
         //如果需要，生成一个新类并使用指定的回调（如果有）以创建新的对象实例。使用超类的无参数构造函数创建。
