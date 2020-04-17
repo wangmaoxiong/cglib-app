@@ -27,7 +27,7 @@ public class MethodInterceptorTest {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(MethodInterceptorTest.class);
 
-        // interface MethodInterceptor extends Callback：方法拦截器.
+        // interface MethodInterceptor extends Callback：方法拦截器，目标方法执行前会被拦截.
         enhancer.setCallback(new MethodInterceptor() {
             //intercept 方法返回的数据类型，必须与拦截方法的实际返回类型兼容，否则类型转换异常.
             @Override
@@ -49,6 +49,7 @@ public class MethodInterceptorTest {
             }
         });
         MethodInterceptorTest methodInterceptorTest = (MethodInterceptorTest) enhancer.create();
+        //
         String toGreet = methodInterceptorTest.toGreet("wmx");
         //输出：2020-04-16 20:35:20	新化大熊山
         System.out.println(toGreet);

@@ -28,7 +28,7 @@ public class InvocationHandlerTest {
         //setSuperclass(Class superclass)：设置将扩展的类，superclass：要扩展的超类或要实现的接口
         enhancer.setSuperclass(InvocationHandlerTest.class);
         /**
-         * interface InvocationHandler extends Callback：调用处理程序.
+         * interface InvocationHandler extends Callback：调用处理程序,目标方法执行前，会被拦截.
          */
         enhancer.setCallback(new InvocationHandler() {
             //返回返回值类型必须于拦截到的方法的返回值类型一致，返回 ClassCastException
@@ -38,7 +38,7 @@ public class InvocationHandlerTest {
                 /**Class<?> getDeclaringClass() ：获取声明类，{@link Method#getDeclaringClass()}
                  * Class<?> getReturnType()：方法返回值类型，{@link Method#getReturnType()}
                  */
-                System.out.println(method.getDeclaringClass());
+                System.out.println("declaringClass=" + method.getDeclaringClass() + "," + method.getName());
                 if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
                     return "Invocation Success !";
                 } else {
@@ -49,6 +49,7 @@ public class InvocationHandlerTest {
         //创建增强类
         InvocationHandlerTest invocationHandlerTest = (InvocationHandlerTest) enhancer.create();
         //假如这里调用 invocationHandlerTest.toString()，则上面抛运行时异常,因为方法的声明类为 Object
+        //目标方法调用时，上面的 InvocationHandler 就会拦截.
         String toGreet = invocationHandlerTest.toGreet();
         System.out.println(toGreet);
     }
