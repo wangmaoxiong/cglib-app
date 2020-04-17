@@ -1,18 +1,16 @@
 package com.wmx.cglibapp.pojo;
 
-import java.time.LocalDateTime;
-
 /**
  * @author wangmaoxiong
  * @version 1.0
  * @date 2020/4/17 14:15
  */
-public class Person {
+public class PersonDto {
     private Integer id;
     private String name;
     private Boolean marry;
-    private Float salary;
-    private LocalDateTime birthday;
+    private String salary;
+    private String birthday;
 
     public Integer getId() {
         return id;
@@ -38,19 +36,19 @@ public class Person {
         this.marry = marry;
     }
 
-    public Float getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(Float salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 
-    public LocalDateTime getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
