@@ -1,5 +1,6 @@
 package com.wmx.cglibapp.proxy;
 
+import com.wmx.cglibapp.pojo.Person;
 import net.sf.cglib.beans.ImmutableBean;
 
 /**
@@ -16,9 +17,9 @@ public class ImmutableBeanTest {
         //创建不可变包装 bean
         Person immutablePerson = (Person) ImmutableBean.create(person);
 
-        //输出：com.wmx.cglibapp.proxy.Person@277050dc
+        //输出：com.wmx.cglibapp.pojo.Person@277050dc
         System.out.println(person);
-        //输出：com.wmx.cglibapp.proxy.Person$$ImmutableBeanByCGLIB$$dee8248a@5c29bfd
+        //输出：com.wmx.cglibapp.pojo.Person$$ImmutableBeanByCGLIB$$dee8248a@5c29bfd
         System.out.println(immutablePerson);
 
         //输出：9527,华安

@@ -1,4 +1,4 @@
-package com.wmx.cglibapp.proxy;
+package com.wmx.cglibapp.pojo;
 
 import java.time.LocalDateTime;
 
