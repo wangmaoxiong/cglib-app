@@ -1,4 +1,4 @@
-package com.wmx.cglibapp.proxy;
+package com.wmx.cglibapp.beans;
 
 import com.wmx.cglibapp.pojo.Person;
 import net.sf.cglib.beans.ImmutableBean;
