@@ -34,6 +34,7 @@ public class CallbackHelperTest {
             @Override
             protected Object getCallback(Method method) {
                 System.out.println("methodName=" + method.getName() + ", returnType=" + method.getReturnType() + ", declaringClass=" + method.getDeclaringClass());
+                //可以对不同的方法使用不同的处理方式，以及不同的回调拦截器.
                 if (method.getName().equals("toGreet")) {
                     System.out.println("√ 方法将来会被拦截.\n");
                     return new MethodInterceptor() {
