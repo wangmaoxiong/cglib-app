@@ -16,9 +16,10 @@ import java.time.format.DateTimeFormatter;
 public class BeanCopierTest {
 
     /**
-     * {@link BeanCopier} 对象属性复制.
+     * {@link BeanCopier#copy(Object from, Object to, Converter converter)}  将 from 对象的属性复制给 to 对象.
      * 1、BeanCopier 默认只拷贝名称和类型都相同的属性，如 int 与 Integer 也会认为类型不同，不会复制
      * 2、属性名称不匹配的，则一定不会复制；属性名称一致时，如果类型不一致，也不会复制.
+     * 3、对于属性类型不一致时，需要借助 {@link Converter} 进行转换.
      */
     public void beanCopierCopy1() {
         Person person = new Person();
@@ -38,9 +39,10 @@ public class BeanCopierTest {
         BeanCopier beanCopier = BeanCopier.create(Person.class, PersonDto.class, false);
         //copy(Object from, Object to, Converter converter)：属性赋值.
         beanCopier.copy(person, personDto, null);
+        personDto.setName("托塔天王");
         //输出：Person{id=20000, name='齐天大圣', marry=false, salary=12050.87, birthday=2020-04-17T16:53:41.111}
         System.out.println(person);
-        //输出：Person{id=20000, name='齐天大圣', marry=false, salary=null, birthday=null}
+        //输出：Person{id=20000, name='托塔天王', marry=false, salary=null, birthday=null}
         System.out.println(personDto);
     }
 
@@ -94,7 +96,7 @@ public class BeanCopierTest {
     }
 
     public static void main(String[] args) {
-        new BeanCopierTest().beanCopierCopy2();
+        new BeanCopierTest().beanCopierCopy1();
 
     }
 }
