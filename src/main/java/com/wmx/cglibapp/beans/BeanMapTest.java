@@ -1,6 +1,6 @@
 package com.wmx.cglibapp.beans;
 
-import com.wmx.cglibapp.pojo.Person;
+import com.wmx.cglibapp.pojo.User;
 import net.sf.cglib.beans.BeanMap;
 
 /**
@@ -10,10 +10,11 @@ import net.sf.cglib.beans.BeanMap;
  */
 public class BeanMapTest {
     public static void main(String[] args) {
-        Person person = new Person();
+        User person = new User();
         person.setId(2002);
         person.setName("刘邦");
 
+        //BeanMap create(Object bean)：bean 对象的属性需要提供 getter、setter 方法.
         BeanMap personBeanMap = BeanMap.create(person);
         //输出：{birthday=null, marry=null, name=刘邦, id=2002, salary=null}
         System.out.println(personBeanMap);
