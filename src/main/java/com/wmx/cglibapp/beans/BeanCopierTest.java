@@ -31,8 +31,8 @@ public class BeanCopierTest {
         PersonDto personDto = new PersonDto();
 
         /**BeanCopier create(Class source, Class target, boolean useConverter)
-         * source：待赋值属性的 bean，需要提供 getter 方法,否则不会复制
-         * target：需要赋值的 bean，需要提供 setter 方法,否则不会复制
+         * source：源对象，其属性需要提供 getter 方法,否则不会复制
+         * target：目标对象，其属性需要提供 setter 方法,否则不会复制
          * useConverter：是否使用 {@link Converter} 转换器.
          */
         BeanCopier beanCopier = BeanCopier.create(Person.class, PersonDto.class, false);
