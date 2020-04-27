@@ -26,7 +26,7 @@ public class InterfaceMakerTest {
         Signature additionSignature = new Signature("find", Type.getType(String.class), new Type[]{Type.INT_TYPE, Type.getType(String.class)});
         Signature multiplicationSignature = new Signature("delete", Type.VOID_TYPE, new Type[]{Type.getType(Map.class)});
 
-        //add(Signature sig, Type[] exceptions)：往InterfaceMaker中添加方法签名，exceptions 是方法抛出的异常类型.
+        //add(Signature sig, Type[] exceptions)：往 InterfaceMaker 中添加方法签名，exceptions 是方法抛出的异常类型.
         InterfaceMaker interfaceMaker = new InterfaceMaker();
         interfaceMaker.add(additionSignature, new Type[0]);
         interfaceMaker.add(multiplicationSignature, new Type[0]);
@@ -36,6 +36,7 @@ public class InterfaceMakerTest {
         //输出：interface net.sf.cglib.empty.Object$$InterfaceMakerByCGLIB$$7ef20235
         System.out.println(mathematics);
 
+        //查询接口的方法.
         Method[] methods = mathematics.getMethods();
         for (Method method : methods) {
             //输出：find,class java.lang.String,[int, class java.lang.String]
