@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>JQuery 方法练习</title>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //示例1
+            //创建一个 a 标签，返回的是 JQuery 对象，然后就可以操作 JQuery 的方法设置样式
+            var technicalSupportJQ = $("<a href='https://wangmaoxiong.blog.csdn.net/' target='_blank'>蚩尤后裔提供技术支持</a>");
+            technicalSupportJQ.css("margin-left", "40%");
+            //将对象追加到 body 标签后
+            $("body").append(technicalSupportJQ);
+
+            //示例2
+            //创建一个 dic 标签，设置属性，然后添加到 body 标签中
+            $("<div>", {
+                class: "alert alert-primary",
+                text: "我是动态生成，点我会变色",
+                style: "color:red;padding-left:40%",
+                click: function () {
+                    $(this).css("color", "#000");
+                }
+            }).appendTo("body");
+
+            //示例3，改变表格第一行和最后一行的背景色
+            $("tbody>tr").first().css("background-color", "#FF8E8E");
+            $("tbody>tr").last().css("background-color", "#A7E3F5");
+
+            //示例4：设置第3行一级倒数第2行的背景色
+            $("tr").eq(2).css("background-color", "#5F6293");
+            $("tr").eq(-2).css("background-color", "#7E7139");
+
+            //示例4：如果 h3 标签含有样式名称 h3，则添加淡入淡出动画
+            if ($("h3").hasClass("h3")) {
+                $("h3").fadeOut(1000).fadeIn(1000);
+            }
+
+            //示例5：表格正文的行绑定单击事件，被点击的行设置背景色为 "A7E3F5"，同时有淡入淡出效果
+            //未被点击的行，背景色恢复为白色
+            $("tbody>tr").on("click", function () {
+                $("tbody>tr").not($(this)).css("background-color", "#fff");
+                $(this).css("background-color", "#A7E3F5");
+                $(this).fadeOut(500).fadeIn(500);
+            });
+
+            //示例6：判断元素的父节点是否是某个选择器，判断元素是否含有某个样式
+            console.log("第一个 tr 父节点是否是 thead？" + $("tr:first").parent().is("thead"));
+            console.log("第一个 tr 父节点是否是 tbody？" + $("tr:first").parent().is("tbody"));
+            console.log("第一个 h3 元素是否含有样式 h3？" + $("h3:first").is(".h3"));
+
+            //示例7：判断复选框是否被选中
+            $(":checkbox").on("change", function () {
+                console.log("是否同意？" + $(this).is(":checked"));
+            });
+
+            //示例8：单选框取值
+            $(":radio").on("change", function () {
+                $(":radio").each(function () {
+                    if ($(this).is(":checked")) {
+                        console.log("性别：" + $(this).val());
+                    }
+                });
+            });
+
+            //示例9：如果第一个 checkbox 是显示的，则让它的父节点淡入淡出
+            if ($(":checkbox:first").is(":visible")) {
+                $(":checkbox:first").parent()
+                    .animate({"margin-left": "+=10", "fontSize": "15px"}, 2000)
+                    .animate({"margin-left": "-=10", "fontSize": "17px"}, 1000)
+                    .animate({"margin-left": "+=10", "fontSize": "15px"}, 2000)
+                    .animate({"margin-left": "-=10", "fontSize": "17px"}, 1000);
+            }
+
+            //示例10：判断元素是否处于动画状态(animated)
+            //在使用 animate方法的时候,要避免动画积累而导致的动画与用户的行为不一致，解决方法是判断元素是否正处于动画优态。
+            //判断元素是否正处于动画状态，如果当前没有进行动画，则添加新动画
+            var stop1 = setInterval(function () {
+                if (!$(":checkbox:first").parent().is(":animated")) {
+                    $(":checkbox:first").parent().css("color", "#f00");
+                    clearInterval(stop1);
+                }
+                console.log("第一个复选框在执行动画！");
+            }, 1000);
+
+            console.log("-----text-------");
+            //示例11：获取匹配的单个元素的文本内容、获取匹配的多个元素的文本内容
+            console.log($(".list-group>li:first").text());
+            $(".list-group>li").each(function (index) {
+                console.log(index + "=" + $(this).text());
+            });
+
+            //示例12：修改匹配的单个元素的文本内容、修改匹配的多个元素的文本内容
+            $("a:last").text("蚩尤后裔提供技术支持！");
+            $(".list-group>li").each(function (index) {
+                if (index == 0) {
+                    $(this).text("Java 语言");
+                } else if (index == 1) {
+                    $(this).text("Python 语言");
+                }
+            });
+
+            console.log("-----html-------");
+            //示例13：获取匹配的第一个元素的html内容，多个 li时，只取第一个
+            console.log($(".list-group>li").html());
+            $(".list-group>li").each(function (index) {
+                console.log(index + "=" + $(this).html());
+            });
+            //示例14：list下的 li 标签 html内容都会输出，赋值与 text 同理
+            console.log($(".list-group").html());
+
+            console.log("-------------val------------");
+            //示例15：为表单元素赋值，赋值针对所有匹配的元素
+            $("input[type=text]").val("敏敏特穆尔");//普通 type=text 赋值
+            $("select").val("Small select");//select 下拉框赋值，如果下拉框是多选，则可以使用数组赋值
+            $(":radio").val(["男"]);//radio 单选框赋值，必须使用数组
+            $("#showForm input[type=checkbox]").val(["研究生", "本科"]);//checkbox 复选框赋值，单个值可以用数组
+
+            //示例16：获取输出框的值，多个元素匹配时，只取第一个的值，必须遍历
+            console.log($("input[name=tableNames]").val());//普通 type=text 取值
+            console.log($("select").val());//select 下拉框取值
+            console.log($(":radio:checked").val());//radio 单选框取值，都未被选中时，返回 undefined
+            $("#showForm input[type=checkbox]:checked").each(function (index) {
+                console.log(index + "=" + $(this).val());
+            });//checkbox 复选框取值，获取被选中的值
+
+            console.log("----------attr--------");
+            //示例17：获取元素的属性值
+            console.log($("a:last").attr("href"));//获取 a 标签的 href 属性值，无对应属性时，返回 undefined
+            //示例18：设置元素的属性值，单个属性时，可以不用数组
+            $("a:last").attr({"title": "蚩尤后裔", "alt": "持有故里"});
+
+            //示例19：删除标签的属性
+            $("a:last").removeAttr("alt");
+
+            //示例20：prop 轻松搞定全选、反选
+            $("#infoArea>button").on("click", function () {
+                var type = $(this).text();
+                if (type == "全选") {
+                    $("table[class=table] :checkbox").prop("checked", true);
+                } else if (type == "全不选") {
+                    $("table[class=table] :checkbox").prop("checked", false);
+                } else if (type == "反选") {
+                    //反选时需要遍历，对当前元素的状态进行取反
+                    $("table[class=table] :checkbox").each(function () {
+                        $(this).prop("checked", !$(this).prop("checked"));
+                    });
+                }
+            });
+
+            //示例21：后置插入文档。如果想在插入之前做一些 JQuery操作，则插入的内容可以使用 $() 包裹，参考示例1
+            $("#showForm select").append("<option>蚩尤后裔</option>");
+            $("body").append($("a:last"));//相当于最后一个a标签剪切到了 body 标签内容的末尾
+            //向下拉框追加新内容，如果是已经存在的元素，则追加后，原位置就没有了
+            $("<option>湘西圣女</option>").appendTo($("#showForm select"));
+
+            //示例22：前置插入文档。如果想在插入之前做一些 JQuery操作，则插入的内容可以使用 $() 包裹，参考示例1
+            $("#showForm select").prepend("<option>梅山武术</option>");
+            //向下拉框头部插入新内容，如果是已经存在的元素，则追加后，原位置就没有了
+            $("<option>里耶秦简</option>").prependTo($("#showForm select"));
+
+
+        });
+    </script>
+</head>
+<body style="width: 80%;margin: auto">
+
+<!--顶部的描述信息-->
+<div style="margin-top: 30px;" id="infoArea">
+    <h3 style="margin-left: 35%" class="h3">JQuery 方法练习</h3>
+    <label><input type="checkbox">是否同意？</label>
+
+    <label><input type="radio" name="sex" value="男">男</label>
+    <label><input type="radio" name="sex" value="女">女</label>
+
+    <button type="button" class="btn btn-primary">全选</button>
+    <button type="button" class="btn btn-secondary">全不选</button>
+    <button type="button" class="btn btn-success">反选</button>
+    <button type="button" class="btn btn-danger">Danger</button>
+    <button type="button" class="btn btn-warning">Warning</button>
+    <button type="button" class="btn btn-info">Info</button>
+    <button type="button" class="btn btn-light">Light</button>
+    <button type="button" class="btn btn-dark">Dark</button>
+    <button type="button" class="btn btn-link">Link</button>
+
+    <p></p>
+</div>
+
+<!--表格数据-->
+<div>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>张</td>
+            <td>无忌</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>李</td>
+            <td>世民</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        <tr>
+            <th scope="row">6</th>
+            <td>宋</td>
+            <td>江</td>
+            <td><input type="checkbox"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!--li 列表数据-->
+
+<ul class="list-group" id="oldLsit">
+    <li class="list-group-item disabled" aria-disabled="true">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Morbi leo risus</li>
+    <li class="list-group-item">Porta ac consectetur ac</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+</ul>
+<p>点击上面的选项会移动到下面，单击下面的选项会移动到上面</p>
+<ul class="list-group" id="newList">
+</ul>
+
+<!--创建一个隐藏的 form 表单，用于post请求传递参数，然后服务器返回下载的文件流，浏览器会自动进行下载-->
+<form id="db2Doc" method="post" action="./db2Doc" enctype="multipart/form-data">
+    <input type="hidden" name="ids" value="12A,45G,66J"/>
+    <input type="hidden" name="tableNames" value="emp,dept,student"/>
+</form>
+
+<!--显示的 form 表单-->
+<br/>
+<form id="showForm">
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="name">
+        </div>
+        <div class="col">
+            <input type="password" class="form-control" placeholder="password">
+        </div>
+    </div>
+    <select class="form-control form-control-lg">
+        <option>Large select</option>
+        <option>Big select</option>
+        <option>Small select</option>
+    </select>
+
+    <label><input type="checkbox" value="研究生">研究生</label>&nbsp;&nbsp;
+    <label><input type="checkbox" value="本科">本科</label>&nbsp;&nbsp;
+    <label><input type="checkbox" value="专科">专科</label>&nbsp;&nbsp;
+
+</form>
+
+
+</body>
+</html>
