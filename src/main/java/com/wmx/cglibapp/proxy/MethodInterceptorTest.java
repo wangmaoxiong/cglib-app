@@ -1,5 +1,6 @@
 package com.wmx.cglibapp.proxy;
 
+import net.sf.cglib.core.DebuggingClassWriter;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -24,6 +25,9 @@ public class MethodInterceptorTest {
     }
 
     public static void main(String[] args) {
+        //在指定目录下生成动态代理类，我们可以反编译看一下里面到底是一些什么东西
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "C:\\wmx\\temp\\redisClear");
+
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(MethodInterceptorTest.class);
 
