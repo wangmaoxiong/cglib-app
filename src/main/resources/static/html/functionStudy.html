@@ -8,6 +8,8 @@
 
     <title>JQuery 方法练习</title>
     <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/css/functionStudy.css">
+
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
@@ -166,14 +168,79 @@
             //向下拉框头部插入新内容，如果是已经存在的元素，则追加后，原位置就没有了
             $("<option>里耶秦简</option>").prependTo($("#showForm select"));
 
+            //示例23：将倒数第二个按钮移动到倒数第一个按钮后面，相当于交换位置
+            $("#infoArea>button:eq(-2)").insertAfter($("#infoArea>button:eq(-1)"));
 
+            //示例24：复制全选按钮并粘贴到左后一个按钮后面
+            $("button:contains('全选')").clone(true).insertAfter($("#infoArea>button:last"));
+
+            //示例25：获取样式属性,只能是 css 样式属性，如 style 则返回 undefined
+            console.log($("h3:first").css("width"));//872px
+            console.log($("tbody>tr:first").css("background-color"));//rgb(255, 142, 142)
+
+            //示例26：设置 css 样式
+            $("h3:first").css({"color": "red", "margin-bottom": "20px"});
+
+
+            //示例27：为元素添加/移除 class 样式，多个时用逗号隔开，样式名称不存在时也是不影响的
+            $("a:last").addClass("h6 myA");
+            $("a:last").removeClass("h6 myA");
+            //为全部的 li 绑定单击事件，点击谁，谁就高亮(active-li)，其余的移除样式(active-li)
+            $("#oldList>li").on("click", function () {
+                $("#oldList>li").not($(this)).removeClass("active-li");
+                $(this).addClass("active-li");
+            });
+
+            //示例28：获取第一段的高，如 91(不带单位，默认为 px)
+            console.log($("div").height());
+            console.log("窗口高度=" + $(window).height() + "，文档高度=" + $(document).height());
+
+            //示例29：获取最后一个 div 相当左上角的偏移量，值不带单位，默认为 px。
+            console.log($("div:last").offset().left + "," + $("div:last").offset().top);
+
+            //示例30：回到顶部，回到顶部后，隐藏按钮。这种方式回到顶部时，速度是很快的。
+            $(".back-to-the-top").on("click", function () {
+                $(window).scrollTop(0);
+                $(".back-to-the-top").hide();
+            });
+
+            //示例31：为窗口绑定滚动事件，实现微博向下滚动时，动态请求下一页数据
+            //为了防止窗口向下滑动时，满足条件后不断的请求后台数据，增加isOnRequest变量进行控制，当开始请求时，将其设置为 true，
+            //请求返回后，再设置为 false.
+            var isOnRequest = false;
+            $(window).on("scroll", function () {
+                var scrollTop = $(window).scrollTop();
+                var documentHeight = $(document).height();
+                var windowHeight = $(window).height();
+
+                if (scrollTop > 200) {
+                    console.log("滚动条距离顶部高度已经大于200px，开始显示回到顶部按钮");
+                    $(".back-to-the-top").show();
+                } else {
+                    console.log("滚动条距离顶部高度已经小于200px，开始隐藏回到顶部按钮");
+                    $(".back-to-the-top").hide();
+                }
+
+                if (scrollTop + windowHeight + 200 >= documentHeight && !isOnRequest) {
+                    console.log("还差200px到文档底部，可以请求下一页数据了.");
+                }
+            });
+
+            //示例32：获取复选框中被选中的个数
+            $("#submitBtn").on("click", function () {
+                var checkedSize = $("tbody input:checked").length;
+                console.log(checkedSize);
+            });
+
+            //示例33：将JQuery对象转为DOM对象
+            console.log($("a:last").get(0).innerHTML);
         });
     </script>
 </head>
 <body style="width: 80%;margin: auto">
 
 <!--顶部的描述信息-->
-<div style="margin-top: 30px;" id="infoArea">
+<div style="margin-top: 30px" id="infoArea">
     <h3 style="margin-left: 35%" class="h3">JQuery 方法练习</h3>
     <label><input type="checkbox">是否同意？</label>
 
@@ -186,9 +253,8 @@
     <button type="button" class="btn btn-danger">Danger</button>
     <button type="button" class="btn btn-warning">Warning</button>
     <button type="button" class="btn btn-info">Info</button>
-    <button type="button" class="btn btn-light">Light</button>
     <button type="button" class="btn btn-dark">Dark</button>
-    <button type="button" class="btn btn-link">Link</button>
+    <button type="button" class="btn btn-link" id="submitBtn">提交</button>
 
     <p></p>
 </div>
@@ -245,18 +311,14 @@
     </table>
 
 </div>
-
 <!--li 列表数据-->
 
-<ul class="list-group" id="oldLsit">
-    <li class="list-group-item disabled" aria-disabled="true">Cras justo odio</li>
+<ul class="list-group" id="oldList">
+    <li class="list-group-item active-li" aria-disabled="true">Cras justo odio</li>
     <li class="list-group-item">Dapibus ac facilisis in</li>
     <li class="list-group-item">Morbi leo risus</li>
     <li class="list-group-item">Porta ac consectetur ac</li>
     <li class="list-group-item">Vestibulum at eros</li>
-</ul>
-<p>点击上面的选项会移动到下面，单击下面的选项会移动到上面</p>
-<ul class="list-group" id="newList">
 </ul>
 
 <!--创建一个隐藏的 form 表单，用于post请求传递参数，然后服务器返回下载的文件流，浏览器会自动进行下载-->
@@ -288,6 +350,6 @@
 
 </form>
 
-
+<span class="back-to-the-top">回到顶部</span>
 </body>
 </html>
