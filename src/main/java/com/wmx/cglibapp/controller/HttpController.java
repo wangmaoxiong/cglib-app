@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * JQuery Ajax 请求练习
+ *
  * @author wangMaoXiong
  * @version 1.0
  * @date 2021/1/5 20:07
