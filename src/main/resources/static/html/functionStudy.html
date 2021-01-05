@@ -234,6 +234,35 @@
 
             //示例33：将JQuery对象转为DOM对象
             console.log($("a:last").get(0).innerHTML);
+
+            //示例34：获取id=oldList 的所有子元素(不含孙元素)，但是排除调第一个子元素
+            $("#oldList").children(":not(:first)").each(function () {
+                console.log("children=" + $(this).text());
+            });
+
+            //示例35：获取id=oldList的元素下面的第一个li后面紧邻的第一个元素(后面有多个时，也只取第一个).
+            console.log("next=" + $("#oldList>li:first").next().html());
+
+            //示例36：获取id=oldList的元素下面的第一个li后面的所有同辈元素，但是排除掉第一个元素.
+            $("#oldList>li:first").nextAll(":not(:first)").each(function () {
+                console.log("nextAll=" + $(this).html());
+            });
+
+            //示例37：获取id=oldList的元素下面的最后一个li前面紧邻的第一个元素(前面有多个时，也只取第一个).
+            console.log("prev=" + $("#oldList>li:last").prev().html());
+
+            //示例38：获取id=oldList的元素下面的最后一个li前面的所有同辈元素，但是排除掉第一个元素.
+            $("#oldList>li:last").prevAll(":not(:first)").each(function () {
+                console.log("prevAll=" + $(this).html());
+            });
+
+            //示例39：获取样式 .h3 元素的父节点的 id 属性值
+            console.log("parent=" + $(".h3").parent().attr("id"));
+
+            //示例40：获取id=oldList的元素下面的第4个li前后的所有同辈元素
+            $("#oldList>li:eq(3)").siblings().each(function () {
+                console.log("siblings=" + $(this).text());
+            });
         });
     </script>
 </head>
