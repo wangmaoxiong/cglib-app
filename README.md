@@ -5,3 +5,5 @@
 1、包含 cglib 学习
 
 2、JQuery 常用方法练习：http://localhost:8080/html/functionStudy.html
+
+3、JQuery ajax 练习：http://localhost:8080/html/ajaxStudy.html

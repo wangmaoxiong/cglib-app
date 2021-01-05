@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>JQuery Ajax 请求练习</title>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/css/functionStudy.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //Get 请求 JS 文件
+            $("#httpGetJs").on("click", function () {
+                $.ajax({
+                    url: "/js/jquery.min.js",
+                    type: "GET",
+                    dataType: "script",
+                    cache: true,
+                    success: function (data) {
+                        $("#httpGetJs").next().val(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //Get 请求 Html 文件
+            $("#httpGetHtml").on("click", function () {
+                $.ajax({
+                    url: "/html/functionStudy.html",
+                    type: "GET",
+                    dataType: "html",
+                    cache: true,
+                    success: function (data) {
+                        $("#httpGetHtml").next().val(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //Get 请求 后台接口
+            $("#httpGetServer").on("click", function () {
+                $.ajax({
+                    url: "/v1/http/get",
+                    type: "GET",
+                    data: {"id": "9527", "isEnd": false, "salary": 787878.67},
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        $("#httpGetServer").next().val(JSON.stringify(data));
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //POST 请求 后台接口
+            $("#httPostServer").on("click", function () {
+                $.ajax({
+                    url: "/v1/http/post",
+                    type: "POST",
+                    data: {"id": "95271", "isEnd": true, "salary": 997878.67},
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        $("#httPostServer").next().val(JSON.stringify(data));
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //json数组 对应后台的 List<Map<String.Object>>
+            var data = [{"name": "华安", "id": 9527, "salary": 8890.98}, {"name": "张三", "id": 9528, "salary": 8790.98}];
+            $("#httPostServer2").on("click", function () {
+                $.ajax({
+                    //RequestParam、RequestBody 参数可以同时传输，除了传递 json 对象，查询参数也可以
+                    url: "/v1/http/requestBody?id=10009",
+                    //默认传输的内容类型为 key-value 型,后台使用数组、List、Map、POJO 等对象接收参数时,
+                    // headers 中必须指定内容类型为 json 类型，否则会报415错误
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    type: "post",
+                    //指定传入的数据类型为 json 类型后，传输的数据理所当然应该是 json 格式。
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (data) {
+                        $("#httPostServer2").next().val(JSON.stringify(data));
+                    },
+                    error: function (data) {
+                        console.log("ERROR:" + JSON.stringify(data));
+                    }
+                });
+            });
+
+
+            //POST 请求 后台接口
+            $("#httPutServer").on("click", function () {
+                $.ajax({
+                    url: "/v1/http/put",
+                    type: "PUT",
+                    data: {"id": "1112", "isEnd": true, "salary": 23231.67},
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        $("#httPutServer").next().val(JSON.stringify(data));
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //json数组 对应后台的 List<Map<String.Object>>
+            var data = ["3728D", "989P", "6767TR", "78786"];
+            $("#httDeleteServer").on("click", function () {
+                $.ajax({
+                    //RequestParam、RequestBody 参数可以同时传输，除了传递 json 对象，查询参数也可以
+                    url: "/v1/http/delete",
+                    //默认传输的内容类型为 key-value 型,后台使用数组、List、Map、POJO 等对象接收参数时,
+                    // headers 中必须指定内容类型为 json 类型，否则会报415错误
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    type: "delete",
+                    //指定传入的数据类型为 json 类型后，传输的数据理所当然应该是 json 格式。
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (data) {
+                        $("#httDeleteServer").next().val(JSON.stringify(data));
+                    },
+                    error: function (data) {
+                        console.log("ERROR:" + JSON.stringify(data));
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+<body style="width: 80%;margin: auto">
+<h3 style="margin-left: 35%" class="h3">JQuery Ajax 请求练习</h3>
+<div>
+    <button type="button" class="btn btn-primary" id="httpGetJs">Get 请求 JS 文件</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httpGetHtml">Get 请求 Html 文件</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httpGetServer">Get 请求 后台接口</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httPostServer">POST 请求后台接口</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httPostServer2">POST 传递 json 数组</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httPutServer">PUT 请求后台接口</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httDeleteServer">Delete 请求后台接口</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+</div>
+
+</body>
+</html>
