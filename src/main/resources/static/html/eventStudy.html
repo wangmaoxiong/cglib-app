@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>JQuery 事件练习</title>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/css/functionStudy.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //示例1：为含有样式名称为 h3 的元素绑定单击事件，且只执行一次
+            $(".h3").one("click", function () {
+                console.log("one 绑定的事件只执行一次.");
+                $(this).css("color", "#f00");
+            });
+
+            //示例2：为含有样式名称为 h3 的元素绑定双击击事件
+            $(".h3").on("dblclick", function () {
+                console.log("双击变蓝色.");
+                $(this).css("color", "blue");
+            });
+
+            //示例3：为 body 元素下面含有样式名称为 h3 的元素绑定鼠标悬停事件
+            $("body").on("mouseenter", ".h3", function () {
+                $(this).css("color", "#AA8B76");
+            });
+
+            //示例4：绑定多个事件，用空格隔开，不同的事件执行相同的函数
+            $("#httpGetJs").on("click mouseenter", function (event) {
+                $("#httpGetJs").next().append("单击我或者悬停我就执行。");
+                console.log(event.type);//获取事件类型
+            });
+
+            //示例4：绑定多个事件，不同的事件执行不同的函数
+            $("#httpGetHtml").on({
+                mouseover: function () {
+                    $("#httpGetHtml").next().append("鼠标进入。<br>");
+                },
+                mouseout: function () {
+                    $("#httpGetHtml").next().append("鼠标移出。<br>");
+                }
+            });
+
+            //示例5：为后期动态新增的元素绑定事件，必须是为已经存在的元素下面的已经存在或者后期新增的元素绑定事件
+            //而直接这样为动态生成的元素绑定事件是不对的，如：$("#haha").on("dblclick", function () {
+            var count = 1;
+            $("body").on("click", ".h4", function (event) {
+                $(".h4:last").after("<h4 class='h4'>我是后期加的" + (count++) + "，但是也能点击</h4>");
+                event.stopPropagation();//阻止事件冒泡
+            });
+
+            //示例6：移除 id =httpGetJs 的鼠标悬停事件
+            $("#httpGetServer").on("click", function () {
+                $("#httpGetJs").off("mouseenter");
+            });
+
+            //示例7：移除 body 元素下面样式为 .h4 的元素的单击事件，on 如何绑定的，off 就要如何解绑
+            $("#httPostServer").on("click", function () {
+                $("body").off("click", ".h4");
+            });
+
+
+            //示例8：绑定单击事件，如果是非自动触发时，data=null。
+            //事件名称是可以自定义的，虽然不属于浏览器默认的事件，用户无法触发，但是可以通过 trigger 触发
+            $("#bt1").on("myClick", function (event, data) {
+                console.log(event.type + ",id=" + data.id + ",name=" + data.name);
+                $(this).fadeOut(200).fadeIn(200);
+            });
+            //自动触发 id=bt1 元素的自定义事件,并传递参数
+            $("#bt1").trigger("myClick", {"id": 9999, "name": "华安"});
+
+            $("#bt2").on("click", function () {
+                // $(this).nextAll("input").trigger("focus");
+                $(this).nextAll("input").triggerHandler("focus");
+            });
+
+            //示例9：hover 一个模仿悬停事件（鼠标移动到一个对象上面及移出这个对象）的方法
+            //当鼠标移动到一个匹配的元素上面时，会触发指定的第一个函数，当鼠标移出这个元素时，会触发指定的第二个函数。
+            $("#hoverH5").hover(function (event) {
+                $(this).prev().fadeOut(500);
+            }, function () {
+                $(this).prev().fadeIn(500);
+            });
+
+
+            //示例10：当没有勾选复选框时，则阻止 a 标签跳转
+            $("#chiYou").on("click", function (event) {
+                console.log(event.target.innerHTML);
+                if (!$(this).prev().prop("checked")) {
+                    event.preventDefault();
+                    //返回 false 可以同时阻止默认事件，和默认行为
+                    //return false;
+                }
+            });
+
+
+            //示例11：当鼠标在页面移动时，显示一个小红点，鼠标移动到哪，小红点移动到哪
+            var moveDivJQ = $("<div style='width: 10px;height: 10px;border-radius: 5px;background-color: red;position: fixed'></div>");
+            $("body").on("mousemove", function (event) {
+                var pageX = event.pageX;
+                var pageY = event.pageY;
+                moveDivJQ.css({"top": pageY, "left": pageX});
+                $("body").append(moveDivJQ);
+            });
+
+            //示例12：绑定鼠标点击事件，左键输出1，中建输出2，右键输出3
+            $(".breadcrumb").on("mousedown", function (event) {
+                console.log(event.which);
+            });
+
+            //示例13：为输入框绑定按键松开事件，输出按键的 ASCII 值，如：回车是 13、a 是 65、空格是 32，数字0是 48
+            $("#keyboard").on("keyup", function (event) {
+                console.log(event.which);
+                if (event.which == 13) {
+                    console.log("用户按下回车按钮，开始检索内容！");
+                }
+            });
+
+        });
+    </script>
+</head>
+<body style="width: 80%;margin: auto">
+<h3 style="margin-left: 35%;margin-bottom: 25px" class="h3">JQuery 事件练习</h3>
+<h4 class="h4">点我自动新增，新增元素也能点</h4>
+<div>
+    <button type="button" class="btn btn-primary" id="httpGetJs">单击我或者悬停我就执行</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httpGetHtml">鼠标进入。鼠标移出。</button>
+    <textarea style="width: 100%;resize: none;margin-bottom: 10px;margin-top: 5px"></textarea>
+
+    <button type="button" class="btn btn-primary" id="httpGetServer">解除第一个的悬停事件</button>
+
+    <button type="button" class="btn btn-primary" id="httPostServer">解除 h4 标题的单击事件</button>
+
+    <h5 class="h5" id="hoverH5" style="margin-top: 10px">鼠标移进移出事件</h5>
+
+    是否跳转：<input type="checkbox">
+    <a href="https://wangmaoxiong.blog.csdn.net/" target="_blank" id="chiYou">蚩尤后裔</a>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+
+    <input type="text" class="form-control" id="keyboard">
+
+</div>
+
+</body>
+</html>

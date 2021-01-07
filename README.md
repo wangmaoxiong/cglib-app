@@ -7,3 +7,5 @@
 2、JQuery 常用方法练习：http://localhost:8080/html/functionStudy.html
 
 3、JQuery ajax 练习：http://localhost:8080/html/ajaxStudy.html
+
+4、JQuery 事件练习：http://localhost:8080/html/eventStudy.html
